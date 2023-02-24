@@ -108,31 +108,31 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences pref=getSharedPreferences(login.PREFS_NAME,0);
         String time_str=pref.getString("medicine_time",null);
         time_str=time_str.trim();
-        String[] time=time_str.split(":");
-        int hour=Integer.parseInt(time[0]);
-        int minutes=Integer.parseInt(time[1]);
-        System.out.println(hour);
-        System.out.println(minutes);
-        System.out.println(time_str);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name="MedicineReminder";
-            String description="Reminder for taking medicine";
-            int importance=NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel=new NotificationChannel("notifyMedicine",name,importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager=getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
+        String[] times=time_str.split(",");
+        for(String temp:times) {
+            String[] time = temp.split(":");
+            int hour = Integer.parseInt(time[0]);
+            int minutes = Integer.parseInt(time[1]);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = "MedicineReminder";
+                String description = "Reminder for taking medicine";
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel channel = new NotificationChannel("notifyMedicine", name, importance);
+                channel.setDescription(description);
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+            }
+
+
+            alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+            inten = new Intent(this, MyBroadcastReceiver.class);
+            pendingIntent = PendingIntent.getBroadcast(this.getApplicationContext(), 0, inten, PendingIntent.FLAG_IMMUTABLE);
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, hour);
+            calendar.set(Calendar.MINUTE, minutes);
+            calendar.set(Calendar.SECOND, 0);
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+            Toast.makeText(this, "ALARM SET", Toast.LENGTH_SHORT).show();
         }
-
-
-        alarmManager=(AlarmManager) getSystemService(ALARM_SERVICE);
-        inten=new Intent(this,MyBroadcastReceiver.class);
-        pendingIntent=PendingIntent.getBroadcast(this.getApplicationContext(),0,inten,PendingIntent.FLAG_IMMUTABLE);
-        Calendar calendar=Calendar.getInstance();
-        calendar.set(Calendar.HOUR_OF_DAY,hour);
-        calendar.set(Calendar.MINUTE,minutes);
-        calendar.set(Calendar.SECOND,0);
-        alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
-        Toast.makeText(this, "ALARM SET", Toast.LENGTH_SHORT).show();
     }
 }
