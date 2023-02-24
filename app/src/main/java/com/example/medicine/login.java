@@ -16,17 +16,12 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.medicine.ui.home.patientData;
-import com.example.medicine.ui.home.patientRetrofitAPI;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 //import retrofit2.Response;
-import retrofit2.Retrofit;
-import retrofit2.converter.gson.GsonConverterFactory;
+
 
 public class login extends AppCompatActivity {
     public Button sbm_btn;
@@ -79,7 +74,7 @@ public class login extends AppCompatActivity {
             }
         });*/
         HttpsTrustManager.allowAllSSL();
-        String url="https://192.168.55.116:45455/api/Patient_Info/"+txt_id.getText().toString();
+        String url="https://192.168.72.116:45455/api/Patient_Info/"+txt_id.getText().toString();
         RequestQueue queue= Volley.newRequestQueue(login.this);
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override

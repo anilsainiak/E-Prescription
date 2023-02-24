@@ -67,7 +67,7 @@ public class SlideshowFragment extends Fragment {
     }
     public void getappointmentInfo(){
         HttpsTrustManager.allowAllSSL();
-        String url="https://192.168.55.116:45455/api/Appointment_Info/"+MainActivity.id;
+        String url="https://192.168.72.116:45455/api/Appointment_Info/"+MainActivity.id;
         //System.out.println(url);
         RequestQueue queue= Volley.newRequestQueue(getActivity());
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new com.android.volley.Response.Listener<JSONObject>() {
@@ -80,7 +80,14 @@ public class SlideshowFragment extends Fragment {
                     staff.setText(response.getString("assign_Staff"));
                     item.setText(response.getString("appt_item"));
                     time.setText(response.getString("time"));
-                    notes.setText(response.getString("medicine"));
+                    duration.setText(response.getString("duration"));
+                    String medicine=response.getString("medicine");
+                    String[] medicine_list=medicine.split(",");
+                    String fin_medicine="";
+                    for(String med:medicine_list){
+                        fin_medicine=fin_medicine+med+"\n\n";
+                    }
+                    notes.setText(fin_medicine);
                     SharedPreferences pref= getContext().getSharedPreferences(login.PREFS_NAME,0);
 
 

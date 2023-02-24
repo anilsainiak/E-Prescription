@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
 
     public void getPatientInfo(){
         HttpsTrustManager.allowAllSSL();
-        String url="https://192.168.55.116:45455/api/Patient_Info/"+MainActivity.id;
+        String url="https://192.168.72.116:45455/api/Patient_Info/"+MainActivity.id;
         RequestQueue queue= Volley.newRequestQueue(getActivity());
         JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
